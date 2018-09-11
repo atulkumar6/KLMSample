@@ -1,0 +1,16 @@
+PODS:
+  - myPod (0.0.2)
+
+DEPENDENCIES:
+  - myPod (~> 0.0.2)
+
+SPEC REPOS:
+  "https://atul21190@bitbucket.org/atul21190/samplepod.git":
+    - myPod
+
+SPEC CHECKSUMS:
+  myPod: 715ad5d6a8c8e4c597426025176955fe2d8d7270
+
+PODFILE CHECKSUM: 876e2bf77f9924444a6ecf6c3536a64edab69c76
+
+COCOAPODS: 1.5.3
