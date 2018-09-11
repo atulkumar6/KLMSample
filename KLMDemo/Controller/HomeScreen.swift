@@ -83,15 +83,17 @@ class HomeScreen: UIViewController {
         // adding constraints programmaticaly.
         
         let dictPageMenuView:[String:UIView] = ["pageMenuVw":pageMenu?.view ?? UIView()];
-        
+
         let horizontalConstraintVw = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuVw]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuView)
         let verticalConstraintVw = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuVw]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuView)
         NSLayoutConstraint.activate(horizontalConstraintVw)
         NSLayoutConstraint.activate(verticalConstraintVw)
         
+        pageMenu?.menuScrollView.translatesAutoresizingMaskIntoConstraints = false;
+
         let dictPageMenuScroll:[String:UIView] = ["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()];
         let horizontalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
-        let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
+        let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0@250-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
         NSLayoutConstraint.activate(horizontalConstraintScroll)
         NSLayoutConstraint.activate(verticalConstraintScroll)
     }

@@ -25,7 +25,6 @@ class CollectionView: UIViewController,HomeScreenProtocol {
         // Do any additional setup after loading the view, typically from a nib.
         let app  = UIApplication.shared.delegate as? AppDelegate
         context = app?.persistentContainer.viewContext
-       // vwCollection?.register(CollectionCell.self, forCellWithReuseIdentifier:reuseIdentifier)
         
     }
     // custom protocol method
