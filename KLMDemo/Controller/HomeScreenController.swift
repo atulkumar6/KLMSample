@@ -14,7 +14,7 @@ import CoreData
 protocol HomeScreenProtocol {
     func reloadCollectionView()
 }
-class HomeScreen: UIViewController {
+class HomeScreenController: UIViewController {
     // UI Outles
     @IBOutlet var vwTopBar: UIView?
     @IBOutlet var lblTopBarTitle:UILabel?
@@ -26,6 +26,7 @@ class HomeScreen: UIViewController {
     // Class Attributes
     fileprivate var pageMenu:CAPSPageMenu?
     fileprivate var delegate:HomeScreenProtocol?
+    var collectionCntrl:CollectionViewController?
 
     // MARK: ViewLifeCycle
     //1
@@ -41,14 +42,16 @@ class HomeScreen: UIViewController {
     }
     //3
     override func viewWillAppear(_ animated: Bool) {
-        let collectionCntrl = Helper.getControllerInstance("CollectionView")
-        (collectionCntrl as? CollectionView)?.vwCollection?.reloadData()
+        super.viewWillAppear(true)
+        
+        collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
+        collectionCntrl?.vwCollection?.reloadData()
         delegate?.reloadCollectionView()
     }
     private func setupPageMenu() {
         var controllerArray : [UIViewController] = []
 
-        let collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionView
+        let collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
         collectionCntrl?.parentNav = self
         self.delegate = collectionCntrl
 
@@ -100,7 +103,7 @@ class HomeScreen: UIViewController {
 }
 
 // MARK: PageMenu Delegate
-extension HomeScreen:CAPSPageMenuDelegate {
+extension HomeScreenController:CAPSPageMenuDelegate {
     func didMoveToPage(_ controller: UIViewController, index: Int) {
         // Swift switch case
         switch index {

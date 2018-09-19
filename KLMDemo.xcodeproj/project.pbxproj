@@ -14,13 +14,13 @@
 		2DB99422214773AA00B8A7A7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB99421214773AA00B8A7A7 /* Constants.swift */; };
 		2DB994282147ABCF00B8A7A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB994272147ABCF00B8A7A7 /* Helper.swift */; };
 		2DF91A7121469A2400144469 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A7021469A2400144469 /* AppDelegate.swift */; };
-		2DF91A7321469A2400144469 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A7221469A2400144469 /* HomeScreen.swift */; };
+		2DF91A7321469A2400144469 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A7221469A2400144469 /* HomeScreenController.swift */; };
 		2DF91A7621469A2400144469 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DF91A7421469A2400144469 /* Main.storyboard */; };
 		2DF91A7921469A2400144469 /* KLMDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A7721469A2400144469 /* KLMDemo.xcdatamodeld */; };
 		2DF91A7B21469A2D00144469 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DF91A7A21469A2D00144469 /* Assets.xcassets */; };
 		2DF91A7E21469A2D00144469 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DF91A7C21469A2D00144469 /* LaunchScreen.storyboard */; };
 		2DF91A8921469A2D00144469 /* KLMDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A8821469A2D00144469 /* KLMDemoTests.swift */; };
-		2DF91A942146A3E100144469 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A932146A3E100144469 /* CollectionView.swift */; };
+		2DF91A942146A3E100144469 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A932146A3E100144469 /* CollectionViewController.swift */; };
 		2DF91A982146BFE600144469 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91A972146BFE600144469 /* CollectionCell.swift */; };
 		2DF91ABA214709EF00144469 /* myPod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF91AB9214709EF00144469 /* myPod.framework */; };
 		2DF91ABC21471B8100144469 /* DescriptionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF91ABB21471B8100144469 /* DescriptionController.swift */; };
@@ -46,7 +46,7 @@
 		2DB994272147ABCF00B8A7A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		2DF91A6D21469A2400144469 /* KLMDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KLMDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DF91A7021469A2400144469 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2DF91A7221469A2400144469 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		2DF91A7221469A2400144469 /* HomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
 		2DF91A7521469A2400144469 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2DF91A7821469A2400144469 /* KLMDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KLMDemo.xcdatamodel; sourceTree = "<group>"; };
 		2DF91A7A21469A2D00144469 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 		2DF91A8421469A2D00144469 /* KLMDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLMDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DF91A8821469A2D00144469 /* KLMDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLMDemoTests.swift; sourceTree = "<group>"; };
 		2DF91A8A21469A2D00144469 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2DF91A932146A3E100144469 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		2DF91A932146A3E100144469 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		2DF91A952146A7AF00144469 /* PageMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PageMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DF91A972146BFE600144469 /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		2DF91AB9214709EF00144469 /* myPod.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = myPod.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,8 +100,8 @@
 		2DB9941D21476B8E00B8A7A7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2DF91A7221469A2400144469 /* HomeScreen.swift */,
-				2DF91A932146A3E100144469 /* CollectionView.swift */,
+				2DF91A7221469A2400144469 /* HomeScreenController.swift */,
+				2DF91A932146A3E100144469 /* CollectionViewController.swift */,
 				2DF91ABB21471B8100144469 /* DescriptionController.swift */,
 			);
 			path = Controller;
@@ -395,14 +395,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DB994282147ABCF00B8A7A7 /* Helper.swift in Sources */,
-				2DF91A7321469A2400144469 /* HomeScreen.swift in Sources */,
+				2DF91A7321469A2400144469 /* HomeScreenController.swift in Sources */,
 				2DF91A7121469A2400144469 /* AppDelegate.swift in Sources */,
 				2DB9941C21476B5300B8A7A7 /* CollectionItem+CoreDataProperties.swift in Sources */,
 				2DF91ABC21471B8100144469 /* DescriptionController.swift in Sources */,
 				2DF91ABE214725B500144469 /* ArtWork.swift in Sources */,
 				2DB99422214773AA00B8A7A7 /* Constants.swift in Sources */,
 				2DB9941B21476B5300B8A7A7 /* CollectionItem+CoreDataClass.swift in Sources */,
-				2DF91A942146A3E100144469 /* CollectionView.swift in Sources */,
+				2DF91A942146A3E100144469 /* CollectionViewController.swift in Sources */,
 				2DF91A7921469A2400144469 /* KLMDemo.xcdatamodeld in Sources */,
 				2DF91A982146BFE600144469 /* CollectionCell.swift in Sources */,
 			);

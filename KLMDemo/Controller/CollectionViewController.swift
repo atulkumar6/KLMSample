@@ -26,6 +26,13 @@ class CollectionViewController: UIViewController,HomeScreenProtocol {
         let app  = UIApplication.shared.delegate as? AppDelegate
         context = app?.persistentContainer.viewContext
         
+        if let flowLayout = vwCollection?.collectionViewLayout as? UICollectionViewFlowLayout,
+            let collectionView = vwCollection {
+            let w = collectionView.frame.size.width - 20
+            flowLayout.itemSize = UICollectionViewFlowLayoutAutomaticSize
+            flowLayout.estimatedItemSize = CGSize(width: 200, height: 200)
+        }
+        
     }
     // custom protocol method
     func reloadCollectionView() {
@@ -34,8 +41,12 @@ class CollectionViewController: UIViewController,HomeScreenProtocol {
 }
 
 
-extension CollectionView:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate {
+extension CollectionViewController:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate {
     
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        vwCollection?.collectionViewLayout.invalidateLayout()
+//    }
     // MARK: CollectionView DataSource
     //1
      func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -75,9 +86,9 @@ extension CollectionView:UICollectionViewDelegateFlowLayout,UICollectionViewData
         return cell ?? CollectionCell()
     }
     //4
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Constants.itemSize, height: Constants.itemSize)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return UICollectionViewFlowLayoutAutomaticSize
+//    }
     //5
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -99,5 +110,6 @@ extension CollectionView:UICollectionViewDelegateFlowLayout,UICollectionViewData
         cntrl?.itemTag = Int16(itemTag)
         self.parentNav?.navigationController?.pushViewController(cntrl ?? UIViewController(), animated: true)
     }
+    
 
 }
