@@ -52,7 +52,7 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
     }
     // MARK: UIButton Actions
     @IBAction func btnBackClick() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     @IBAction func btnIsFavClick() {
         if btnIsFav?.isSelected ?? false {

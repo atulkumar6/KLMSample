@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		165096D5EA6D27A6C0A7D3C2 /* Pods_KLMDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EDEC9C405466D6BD6218775 /* Pods_KLMDemoTests.framework */; };
 		1B209940542D4A21874509BA /* Pods_KLMDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDDE7673A3BB5CF7239556DD /* Pods_KLMDemo.framework */; };
+		2D32448B2152EDC6009B7525 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D32448A2152EDC6009B7525 /* UIColorExtension.swift */; };
 		2DB9941B21476B5300B8A7A7 /* CollectionItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB9941921476B5300B8A7A7 /* CollectionItem+CoreDataClass.swift */; };
 		2DB9941C21476B5300B8A7A7 /* CollectionItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB9941A21476B5300B8A7A7 /* CollectionItem+CoreDataProperties.swift */; };
 		2DB99422214773AA00B8A7A7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB99421214773AA00B8A7A7 /* Constants.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		02DF571EB7388184ECD0970A /* Pods-KLMDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KLMDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KLMDemo/Pods-KLMDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		1EDEC9C405466D6BD6218775 /* Pods_KLMDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KLMDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D32448A2152EDC6009B7525 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		2DB9941921476B5300B8A7A7 /* CollectionItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2DB9941A21476B5300B8A7A7 /* CollectionItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2DB99421214773AA00B8A7A7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -88,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D3244892152EDA1009B7525 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				2D32448A2152EDC6009B7525 /* UIColorExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		2DB9940C2147679000B8A7A7 /* CoreDataClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +197,7 @@
 		2DF91A6F21469A2400144469 /* KLMDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2D3244892152EDA1009B7525 /* Extension */,
 				2DB994262147ABB100B8A7A7 /* HelperClass */,
 				2DB99424214791B200B8A7A7 /* CoreDataModel */,
 				2DB994232147918600B8A7A7 /* Storyboard */,
@@ -405,6 +416,7 @@
 				2DF91A942146A3E100144469 /* CollectionViewController.swift in Sources */,
 				2DF91A7921469A2400144469 /* KLMDemo.xcdatamodeld in Sources */,
 				2DF91A982146BFE600144469 /* CollectionCell.swift in Sources */,
+				2D32448B2152EDC6009B7525 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,7 @@ import UIKit
 class Helper {
     static func getControllerInstance(_ str: String) -> UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let cntrl = storyboard.instantiateViewController(withIdentifier:str)
-        return cntrl
+        let cntrollerInstance = storyboard.instantiateViewController(withIdentifier:str)
+        return cntrollerInstance
     }
 }

@@ -95,6 +95,6 @@ extension CollectionViewController:UICollectionViewDelegateFlowLayout,UICollecti
         let cntrl = Helper.getControllerInstance("DescriptionController") as? DescriptionController
         let itemTag = Constants.totalItem - (indexPath.section * Constants.numberOfItemsInSection + indexPath.item)
         cntrl?.itemTag = Int16(itemTag)
-        self.parentNav?.navigationController?.pushViewController(cntrl ?? UIViewController(), animated: true)
+        parentNav?.navigationController?.pushViewController(cntrl ?? UIViewController(), animated: true)
     }
 }

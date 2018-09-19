@@ -49,27 +49,27 @@ class HomeScreenController: UIViewController {
         var controllerArray : [UIViewController] = []
         let collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
         collectionCntrl?.parentNav = self
-        self.delegate = collectionCntrl
+        delegate = collectionCntrl
         collectionCntrl?.title = "Collection"
-        collectionCntrl?.view.frame = CGRect(x: 0.0, y:0, width: (self.vwCollection?.frame.width) ?? 0, height: (self.vwCollection?.frame.height) ?? 0)
+        collectionCntrl?.view.frame = CGRect(x: 0.0, y:0, width: (vwCollection?.frame.width) ?? 0, height: (vwCollection?.frame.height) ?? 0)
         controllerArray.append(collectionCntrl ?? UIViewController())
         let parameters = getPageMenuOptions()
         // Initialize scroll menu
-        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (self.vwCollection?.frame.height) ?? 0), pageMenuOptions: parameters)
+        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (vwCollection?.frame.height) ?? 0), pageMenuOptions: parameters)
         pageMenu?.delegate = self
-        self.vwCollection?.addSubview((pageMenu?.view) ?? UIView());
+        vwCollection?.addSubview((pageMenu?.view) ?? UIView());
         addConstraintOnPageMenu()
     }
     private func getPageMenuOptions() -> [CAPSPageMenuOption] {
         return [.menuItemSeparatorWidth(4.3),
-            .scrollMenuBackgroundColor(UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255/255.0, alpha: 1.0)),
-            .viewBackgroundColor(UIColor(red: 252.0/255.0, green: 252.0/255.0, blue: 252.0/255.0, alpha: 1.0)),
-            .bottomMenuHairlineColor(UIColor(red: 255.0/255.0, green: 196.0/255.0, blue: 0/255.0, alpha: 1.0)),
-            .selectionIndicatorColor(UIColor(red: 153.0/255.0, green: 36.0/255.0, blue: 22.0/255.0, alpha: 1.0)),
+            .scrollMenuBackgroundColor(UIColor.whiteColorInstance),
+            .viewBackgroundColor(UIColor.viewBackgroundColor),
+            .bottomMenuHairlineColor(UIColor.bottomMenuHairlineColor),
+            .selectionIndicatorColor(UIColor.selectionIndicatorColor),
             .menuMargin(20),
             .menuHeight(40),
             .selectedMenuItemLabelColor(UIColor.blue),
-            .unselectedMenuItemLabelColor(UIColor(red: 196.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.8)),
+            .unselectedMenuItemLabelColor(UIColor.unselectedMenuItemLabelColor),
             .menuItemFont(UIFont(name:Constants.helvitica, size: 13.0) ?? UIFont()),
             .useMenuLikeSegmentedControl(true),
             .menuItemSeparatorRoundEdges(false),
