@@ -11,8 +11,7 @@ import UIKit
 
 // This class contains static functions
 class Helper {
-    
-   static func getControllerInstance(_ str: String) -> UIViewController {
+    static func getControllerInstance(_ str: String) -> UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let cntrl = storyboard.instantiateViewController(withIdentifier:str)
         return cntrl

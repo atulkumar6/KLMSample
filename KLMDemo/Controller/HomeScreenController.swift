@@ -22,12 +22,10 @@ class HomeScreenController: UIViewController {
     @IBOutlet var btnSearch:UIButton?
     @IBOutlet var tabBar:UITabBar?
     @IBOutlet var vwCollection:UIView?
-    
     // Class Attributes
     fileprivate var pageMenu:CAPSPageMenu?
     fileprivate var delegate:HomeScreenProtocol?
     var collectionCntrl:CollectionViewController?
-
     // MARK: ViewLifeCycle
     //1
     override func viewDidLoad() {
@@ -43,25 +41,27 @@ class HomeScreenController: UIViewController {
     //3
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
         collectionCntrl?.vwCollection?.reloadData()
         delegate?.reloadCollectionView()
     }
     private func setupPageMenu() {
         var controllerArray : [UIViewController] = []
-
         let collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
         collectionCntrl?.parentNav = self
         self.delegate = collectionCntrl
-
         collectionCntrl?.title = "Collection"
         collectionCntrl?.view.frame = CGRect(x: 0.0, y:0, width: (self.vwCollection?.frame.width) ?? 0, height: (self.vwCollection?.frame.height) ?? 0)
-        
-        
         controllerArray.append(collectionCntrl ?? UIViewController())
-        let parameters: [CAPSPageMenuOption] = [
-            .menuItemSeparatorWidth(4.3),
+        let parameters = getPageMenuOptions()
+        // Initialize scroll menu
+        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (self.vwCollection?.frame.height) ?? 0), pageMenuOptions: parameters)
+        pageMenu?.delegate = self
+        self.vwCollection?.addSubview((pageMenu?.view) ?? UIView());
+        addConstraintOnPageMenu()
+    }
+    private func getPageMenuOptions() -> [CAPSPageMenuOption] {
+        return [.menuItemSeparatorWidth(4.3),
             .scrollMenuBackgroundColor(UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255/255.0, alpha: 1.0)),
             .viewBackgroundColor(UIColor(red: 252.0/255.0, green: 252.0/255.0, blue: 252.0/255.0, alpha: 1.0)),
             .bottomMenuHairlineColor(UIColor(red: 255.0/255.0, green: 196.0/255.0, blue: 0/255.0, alpha: 1.0)),
@@ -77,23 +77,16 @@ class HomeScreenController: UIViewController {
             .menuItemSeparatorPercentageHeight(0.1)
         ]
         
-        // Initialize scroll menu
-        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (self.vwCollection?.frame.height) ?? 0), pageMenuOptions: parameters)
-        pageMenu?.delegate = self
-        self.vwCollection?.addSubview((pageMenu?.view) ?? UIView());
+    }
+    private func addConstraintOnPageMenu() {
         pageMenu?.view.translatesAutoresizingMaskIntoConstraints = false;
-        
         // adding constraints programmaticaly.
-        
         let dictPageMenuView:[String:UIView] = ["pageMenuVw":pageMenu?.view ?? UIView()];
-
         let horizontalConstraintVw = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuVw]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuView)
         let verticalConstraintVw = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuVw]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuView)
         NSLayoutConstraint.activate(horizontalConstraintVw)
         NSLayoutConstraint.activate(verticalConstraintVw)
-        
         pageMenu?.menuScrollView.translatesAutoresizingMaskIntoConstraints = false;
-
         let dictPageMenuScroll:[String:UIView] = ["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()];
         let horizontalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
         let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0@250-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
@@ -101,7 +94,6 @@ class HomeScreenController: UIViewController {
         NSLayoutConstraint.activate(verticalConstraintScroll)
     }
 }
-
 // MARK: PageMenu Delegate
 extension HomeScreenController:CAPSPageMenuDelegate {
     func didMoveToPage(_ controller: UIViewController, index: Int) {
@@ -114,7 +106,6 @@ extension HomeScreenController:CAPSPageMenuDelegate {
         default:
             break
         }
-        
     }
 }
 

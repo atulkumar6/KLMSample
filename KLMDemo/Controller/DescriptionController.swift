@@ -12,17 +12,13 @@ import MapKit
 import CoreData
 
 class DescriptionController: UIViewController,MKMapViewDelegate {
-    
     // UI Outles
     @IBOutlet var btnIsFav:UIButton?
     @IBOutlet var mapVw:MKMapView?
     @IBOutlet var btnBack:UIButton?
-    
     // Class Attributes, declared as optional
     fileprivate var context:NSManagedObjectContext?
     var itemTag:Int16?
-    
-
     // MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +34,7 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
             }
         
         setMapView()
-        
     }
-    
     fileprivate func setMapView() {
         let regionRadius: CLLocationDistance = 1000
         //MARK: Nested function
@@ -55,22 +49,11 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
                               coordinate: CLLocationCoordinate2D(latitude: 21.283921, longitude: -157.831661))
         centerMapOnLocation(location:initialLocation)
         mapVw?.addAnnotation(artwork)
-      
     }
-    
-//    // MARK: MapView Delegate
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationVw = MKAnnotationView()
-//        annotationVw.image = UIImage(named: "annotation")
-//         return annotationVw
-//
-//    }
-    
     // MARK: UIButton Actions
     @IBAction func btnBackClick() {
         self.navigationController?.popViewController(animated: true)
     }
-    
     @IBAction func btnIsFavClick() {
         if btnIsFav?.isSelected ?? false {
             btnIsFav?.isSelected = false
@@ -96,14 +79,13 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
                 
             }
         }
-        
         // MARK : Swift Defer Statement
         defer {
             // optional try for error handling
             try? context?.save()
+            
         }
     }
-    
     // MARK: Accessing data from Core data.
     fileprivate func fetchRecordFromDb() -> [CollectionItem]? {
         let fetchReq = NSFetchRequest<CollectionItem>(entityName: "CollectionItem")

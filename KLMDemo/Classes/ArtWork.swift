@@ -13,17 +13,13 @@ import MapKit
 class Artwork: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     let title: String?
-    
     // MARK: Designated Initializer
     init(_ title: String, _ coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.coordinate = coordinate
-        
     }
-    
     // MARK: Convenience Initializer
     convenience init(title: String, coordinate: CLLocationCoordinate2D) {
         self.init(title,coordinate)
     }
-   
 }
