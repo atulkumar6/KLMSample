@@ -14,6 +14,10 @@ class Constants {
     static let totalItem = 98
     static let numberOfItemsInSection = 3
     static let totalSections = 33
+    static let zeroSection = 0
+    static let oneSection = 1
+    static let emptyText = ""
+    static let invalidItemTag = -1
     static let numberOfItemsInLastSection = 2
     static let itemSize = UIScreen.main.bounds.size.width/3 - 10
     // Font Name
@@ -22,8 +26,10 @@ class Constants {
     static let homeScreenControllerId = "HomeScreen"
     static let collectionViewControllerId = "CollectionView"
     static let descriptionControllerId = "DescriptionController"
+    static let informationViewControllerId = "informationController"
     // Predefined Text
     static let collectionViewNavBarTitle = "Collection"
+    static let informationTitle = "Information"
     // Core data entity name
     static let collectionItem = "CollectionItem"
     // Location Attributes Constants
@@ -37,5 +43,6 @@ class Constants {
     static let menuItemFontSize:CGFloat = 13.0
     static let selectionIndicatorHeight:CGFloat = 2.0
     static let menuItemSeparatorPercentageHeight:CGFloat = 0.1
-    
+    static let markAsFavouriteText = "Mark as favourite"
+    static let unmarkAsFavouriteText = "Unmark as favourite"
 }

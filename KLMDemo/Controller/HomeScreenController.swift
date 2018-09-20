@@ -13,14 +13,17 @@ import CoreData
 // MARK: Custom Protocol
 protocol HomeScreenProtocol {
     func reloadCollectionView()
+    func filterCollectionItem(itemNumber:Int)
+    func clearTextSearchBar()
 }
 class HomeScreenController: UIViewController {
     // UI Outles
     @IBOutlet var vwTopBar: UIView?
     @IBOutlet var lblTopBarTitle:UILabel?
-    @IBOutlet var btnMenuFlip:UIButton?
+    @IBOutlet var btnCancel:UIButton?
     @IBOutlet var btnSearch:UIButton?
     @IBOutlet var tabBar:UITabBar?
+    @IBOutlet var searchBar:UISearchBar?
     @IBOutlet var vwCollection:UIView?
     // Class Attributes
     fileprivate var pageMenu:CAPSPageMenu?
@@ -41,6 +44,7 @@ class HomeScreenController: UIViewController {
     //3
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        navigationController?.navigationBar.isHidden = true
         collectionCntrl = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
         collectionCntrl?.vwCollection?.reloadData()
         delegate?.reloadCollectionView()
@@ -53,6 +57,10 @@ class HomeScreenController: UIViewController {
         collectionCntrl?.title = Constants.collectionViewNavBarTitle
         collectionCntrl?.view.frame = CGRect(x: 0.0, y:0, width: (vwCollection?.frame.width) ?? 0, height: (vwCollection?.frame.height) ?? 0)
         controllerArray.append(collectionCntrl ?? UIViewController())
+        let informationController = Helper.getControllerInstance(Constants.informationViewControllerId) as? InformationController
+        informationController?.view.frame = CGRect(x: 0.0, y:0, width: (vwCollection?.frame.width) ?? 0, height: (vwCollection?.frame.height) ?? 0)
+        informationController?.title = Constants.informationTitle
+        controllerArray.append(informationController ?? UIViewController())
         let parameters = getPageMenuOptions()
         // Initialize scroll menu
         pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (vwCollection?.frame.height) ?? 0), pageMenuOptions: parameters)
@@ -69,7 +77,7 @@ class HomeScreenController: UIViewController {
             .menuMargin(Constants.menuMargin),
             .menuHeight(Constants.menuHeight),
             .selectedMenuItemLabelColor(UIColor.blue),
-            .unselectedMenuItemLabelColor(UIColor.unselectedMenuItemLabelColor),
+            .unselectedMenuItemLabelColor(UIColor.lightGray),
             .menuItemFont(UIFont(name:Constants.helvitica, size: Constants.menuItemFontSize) ?? UIFont()),
             .useMenuLikeSegmentedControl(true),
             .menuItemSeparatorRoundEdges(false),
@@ -102,10 +110,41 @@ extension HomeScreenController:CAPSPageMenuDelegate {
         case 0:
             lblTopBarTitle?.text = Constants.collectionViewNavBarTitle
         case 1:
-            lblTopBarTitle?.text = "NextPage"
+            lblTopBarTitle?.text = Constants.informationTitle
         default:
             break
         }
     }
 }
+// MARK: SearchBar  Delegate
+extension HomeScreenController:UISearchBarDelegate {
+     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == Constants.emptyText {
+            delegate?.clearTextSearchBar()
+        }
+        else {
+        delegate?.filterCollectionItem(itemNumber:Int(searchBar.text ?? String(Constants.invalidItemTag)) ?? Constants.invalidItemTag)
+        }
+     }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+     @IBAction func btnCancelClicked() {
+        searchBar?.resignFirstResponder()
+        searchBar?.text = Constants.emptyText
+        searchBar?.isHidden = true
+        btnCancel?.isHidden = true
+        delegate?.clearTextSearchBar()
+    }
+    @IBAction func btnSearchClicked() {
+        searchBar?.isHidden = false
+        btnCancel?.isHidden = false
+    }
+}
+extension HomeScreenController:UITabBarDelegate {
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        pageMenu?.moveToPage(item.tag)
+    }
+}
+
 

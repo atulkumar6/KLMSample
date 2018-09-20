@@ -13,7 +13,7 @@ import CoreData
 class CoreDataManager {
     
     fileprivate lazy var context:NSManagedObjectContext? = {
-        return self.persistentContainer.viewContext
+        return persistentContainer.viewContext
     }()
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {

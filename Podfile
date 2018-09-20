@@ -1,7 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-# private pod repo
 source 'https://atul21190@bitbucket.org/atul21190/samplepod.git'
 
 # cocoa pod repo
@@ -14,7 +13,6 @@ target 'KLMDemo' do
   
   #pod 'PageMenu'
   
-  # private pod
   pod 'myPod', '~> 0.0.2'
 
 
