@@ -62,7 +62,7 @@ extension CollectionViewController:UICollectionViewDelegateFlowLayout,UICollecti
         let itemTag = Constants.totalItem - ((indexPath.section * Constants.numberOfItemsInSection) + indexPath.item)
         cell?.lblTag?.text = String(itemTag)
         // fetching records from core data
-        let fetchReq = NSFetchRequest<CollectionItem>(entityName: "CollectionItem")
+        let fetchReq = NSFetchRequest<CollectionItem>(entityName: Constants.collectionItem)
         fetchReq.predicate = NSPredicate(format: "tag == %d", itemTag)
         let fetchResult = (try? context?.fetch(fetchReq)) ?? nil
         if let item = fetchResult?.first {
@@ -92,7 +92,7 @@ extension CollectionViewController:UICollectionViewDelegateFlowLayout,UICollecti
     }
     // MARK: CollectionView Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cntrl = Helper.getControllerInstance("DescriptionController") as? DescriptionController
+        let cntrl = Helper.getControllerInstance(Constants.descriptionControllerId) as? DescriptionController
         let itemTag = Constants.totalItem - (indexPath.section * Constants.numberOfItemsInSection + indexPath.item)
         cntrl?.itemTag = Int16(itemTag)
         parentNav?.navigationController?.pushViewController(cntrl ?? UIViewController(), animated: true)

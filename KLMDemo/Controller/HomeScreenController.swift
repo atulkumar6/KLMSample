@@ -41,16 +41,16 @@ class HomeScreenController: UIViewController {
     //3
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
+        collectionCntrl = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
         collectionCntrl?.vwCollection?.reloadData()
         delegate?.reloadCollectionView()
     }
     private func setupPageMenu() {
         var controllerArray : [UIViewController] = []
-        let collectionCntrl = Helper.getControllerInstance("CollectionView") as? CollectionViewController
+        let collectionCntrl = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
         collectionCntrl?.parentNav = self
         delegate = collectionCntrl
-        collectionCntrl?.title = "Collection"
+        collectionCntrl?.title = Constants.collectionViewNavBarTitle
         collectionCntrl?.view.frame = CGRect(x: 0.0, y:0, width: (vwCollection?.frame.width) ?? 0, height: (vwCollection?.frame.height) ?? 0)
         controllerArray.append(collectionCntrl ?? UIViewController())
         let parameters = getPageMenuOptions()
@@ -61,20 +61,20 @@ class HomeScreenController: UIViewController {
         addConstraintOnPageMenu()
     }
     private func getPageMenuOptions() -> [CAPSPageMenuOption] {
-        return [.menuItemSeparatorWidth(4.3),
+        return [.menuItemSeparatorWidth(Constants.menuItemSeparatorWidth),
             .scrollMenuBackgroundColor(UIColor.whiteColorInstance),
             .viewBackgroundColor(UIColor.viewBackgroundColor),
             .bottomMenuHairlineColor(UIColor.bottomMenuHairlineColor),
             .selectionIndicatorColor(UIColor.selectionIndicatorColor),
-            .menuMargin(20),
-            .menuHeight(40),
+            .menuMargin(Constants.menuMargin),
+            .menuHeight(Constants.menuHeight),
             .selectedMenuItemLabelColor(UIColor.blue),
             .unselectedMenuItemLabelColor(UIColor.unselectedMenuItemLabelColor),
-            .menuItemFont(UIFont(name:Constants.helvitica, size: 13.0) ?? UIFont()),
+            .menuItemFont(UIFont(name:Constants.helvitica, size: Constants.menuItemFontSize) ?? UIFont()),
             .useMenuLikeSegmentedControl(true),
             .menuItemSeparatorRoundEdges(false),
-            .selectionIndicatorHeight(2.0),
-            .menuItemSeparatorPercentageHeight(0.1)
+            .selectionIndicatorHeight(Constants.selectionIndicatorHeight),
+            .menuItemSeparatorPercentageHeight(Constants.menuItemSeparatorPercentageHeight)
         ]
         
     }
@@ -100,7 +100,7 @@ extension HomeScreenController:CAPSPageMenuDelegate {
         // Swift switch case
         switch index {
         case 0:
-            lblTopBarTitle?.text = "Collection"
+            lblTopBarTitle?.text = Constants.collectionViewNavBarTitle
         case 1:
             lblTopBarTitle?.text = "NextPage"
         default:

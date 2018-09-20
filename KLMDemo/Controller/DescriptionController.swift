@@ -36,17 +36,17 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
         setMapView()
     }
     fileprivate func setMapView() {
-        let regionRadius: CLLocationDistance = 1000
+        let regionRadius: CLLocationDistance = CLLocationDistance(Constants.regionRadius)
         //MARK: Nested function
         func centerMapOnLocation(location: CLLocation) {
             let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                       regionRadius, regionRadius)
             mapVw?.setRegion(coordinateRegion, animated: true)
         }
-        let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
+        let initialLocation = CLLocation(latitude: Constants.lattitude, longitude: Constants.longitude)
 
         let artwork = Artwork(title: "\(itemTag ?? -1)",
-                              coordinate: CLLocationCoordinate2D(latitude: 21.283921, longitude: -157.831661))
+                              coordinate: CLLocationCoordinate2D(latitude: Constants.lattitude, longitude:Constants.longitude))
         centerMapOnLocation(location:initialLocation)
         mapVw?.addAnnotation(artwork)
     }
@@ -72,7 +72,7 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
             }
             else {
                 // creating objects into context.
-                let entity = NSEntityDescription.entity(forEntityName: "CollectionItem", in: context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)) ?? NSEntityDescription()
+                let entity = NSEntityDescription.entity(forEntityName: Constants.collectionItem, in: context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)) ?? NSEntityDescription()
                 let newItem = NSManagedObject(entity: entity, insertInto: context) as? CollectionItem
                 newItem?.tag = itemTag ?? -1
                 newItem?.isFavorite = btnIsFav?.isSelected ?? false
@@ -88,7 +88,7 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
     }
     // MARK: Accessing data from Core data.
     fileprivate func fetchRecordFromDb() -> [CollectionItem]? {
-        let fetchReq = NSFetchRequest<CollectionItem>(entityName: "CollectionItem")
+        let fetchReq = NSFetchRequest<CollectionItem>(entityName: Constants.collectionItem)
         fetchReq.predicate = NSPredicate(format: "tag == %d", itemTag ?? -1)
         let fetchResult = try? context?.fetch(fetchReq) ?? nil
         return fetchResult ?? nil
