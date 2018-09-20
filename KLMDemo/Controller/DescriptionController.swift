@@ -17,16 +17,15 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
     @IBOutlet var mapVw:MKMapView?
     @IBOutlet var btnBack:UIButton?
     // Class Attributes, declared as optional
-    fileprivate var context:NSManagedObjectContext?
+    let coreDataManager = CoreDataManager()
     var itemTag:Int16?
     // MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let app  = UIApplication.shared.delegate as? AppDelegate
-        context = app?.persistentContainer.viewContext
+       
         // If let optional binding
-            if let item = fetchRecordFromDb()?.first {
+            if let item = coreDataManager.fetchRecordFromDb(itemTag ?? -1)?.first {
                 if item.isFavorite {
                 btnIsFav?.backgroundColor = UIColor.red
                 btnIsFav?.isSelected = true
@@ -59,7 +58,7 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
             btnIsFav?.isSelected = false
             btnIsFav?.backgroundColor = UIColor.white
             // If let optional binding
-            if let item = fetchRecordFromDb()?.first {
+            if let item = coreDataManager.fetchRecordFromDb(itemTag ?? -1)?.first {
                 item.isFavorite = false
             }
         }
@@ -67,30 +66,15 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
             btnIsFav?.isSelected = true
             btnIsFav?.backgroundColor = UIColor.red
             // MARK: If let optional binding
-            if let item = fetchRecordFromDb()?.first {
+            if let item = coreDataManager.fetchRecordFromDb(itemTag ?? -1)?.first {
                 item.isFavorite = true
             }
             else {
-                // creating objects into context.
-                let entity = NSEntityDescription.entity(forEntityName: Constants.collectionItem, in: context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)) ?? NSEntityDescription()
-                let newItem = NSManagedObject(entity: entity, insertInto: context) as? CollectionItem
-                newItem?.tag = itemTag ?? -1
-                newItem?.isFavorite = btnIsFav?.isSelected ?? false
-                
-            }
+                // creating objects into context, injecting itemtag and Bool value dependency.
+                coreDataManager.insertRecordToDb(itemTag ?? -1,btnIsFav?.isSelected ?? false)
+               }
         }
-        // MARK : Swift Defer Statement
-        defer {
-            // optional try for error handling
-            try? context?.save()
-            
-        }
+        
     }
-    // MARK: Accessing data from Core data.
-    fileprivate func fetchRecordFromDb() -> [CollectionItem]? {
-        let fetchReq = NSFetchRequest<CollectionItem>(entityName: Constants.collectionItem)
-        fetchReq.predicate = NSPredicate(format: "tag == %d", itemTag ?? -1)
-        let fetchResult = try? context?.fetch(fetchReq) ?? nil
-        return fetchResult ?? nil
-    }
+   
 }

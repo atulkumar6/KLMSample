@@ -16,13 +16,11 @@ class CollectionViewController: UIViewController,HomeScreenProtocol {
     // Class Attributes
     fileprivate let reuseIdentifier = "collection"
     var parentNav:UIViewController?
-    fileprivate var context:NSManagedObjectContext?
+    let coreDataManager = CoreDataManager()
     // MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let app  = UIApplication.shared.delegate as? AppDelegate
-        context = app?.persistentContainer.viewContext
         if let flowLayout = vwCollection?.collectionViewLayout as? UICollectionViewFlowLayout,
             let collectionView = vwCollection {
             let w = collectionView.frame.size.width - 20
@@ -62,10 +60,7 @@ extension CollectionViewController:UICollectionViewDelegateFlowLayout,UICollecti
         let itemTag = Constants.totalItem - ((indexPath.section * Constants.numberOfItemsInSection) + indexPath.item)
         cell?.lblTag?.text = String(itemTag)
         // fetching records from core data
-        let fetchReq = NSFetchRequest<CollectionItem>(entityName: Constants.collectionItem)
-        fetchReq.predicate = NSPredicate(format: "tag == %d", itemTag)
-        let fetchResult = (try? context?.fetch(fetchReq)) ?? nil
-        if let item = fetchResult?.first {
+        if let item = coreDataManager.fetchRecordFromDb(Int16(itemTag))?.first {
             // MARK: Optional Chaining
             cell?.imgvwFav?.isHidden = !item.isFavorite
         }
