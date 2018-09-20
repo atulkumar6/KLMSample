@@ -20,6 +20,7 @@ class Constants {
     static let invalidItemTag = -1
     static let numberOfItemsInLastSection = 2
     static let itemSize = UIScreen.main.bounds.size.width/3 - 10
+    static let minimumInteritemSpacingForSection:CGFloat = 1.0
     // Font Name
     static let helvitica = "HelveticaNeue-Bold"
     // MARK: StoryboardID

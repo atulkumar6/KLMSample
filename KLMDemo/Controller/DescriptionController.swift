@@ -78,7 +78,12 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
                 coreDataManager.insertRecordToDb(itemTag ?? Int16(Constants.invalidItemTag),btnIsFav?.isSelected ?? false)
                }
         }
+        // MARK : Swift Defer Statement
+        defer {
+            coreDataManager.saveContext()
+        }
         
     }
+    
    
 }

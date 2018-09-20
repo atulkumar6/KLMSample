@@ -40,11 +40,7 @@ class CoreDataManager {
         let newItem = NSManagedObject(entity: entity, insertInto: context) as? CollectionItem
         newItem?.tag = itemTag
         newItem?.isFavorite = isSelected
-        // MARK : Swift Defer Statement
-        defer {
-            // optional try for error handling
-            saveContext()
-        }
+       
     }
     // MARK: - Core Data Saving support
     func saveContext () {

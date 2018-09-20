@@ -92,18 +92,24 @@ extension CollectionViewController:UICollectionViewDelegateFlowLayout,UICollecti
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1.0
+        return Constants.minimumInteritemSpacingForSection
     }
     //6
     func collectionView(_ collectionView: UICollectionView, layout
         collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1.0
+        return Constants.minimumInteritemSpacingForSection
     }
     // MARK: CollectionView Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let descController = Helper.getControllerInstance(Constants.descriptionControllerId) as? DescriptionController
-        let itemTag = Constants.totalItem - (indexPath.section * Constants.numberOfItemsInSection + indexPath.item)
+        var itemTag = Constants.invalidItemTag
+        if totalSections == Constants.oneSection  {
+            itemTag = filteredItemNumber
+        }
+        else {
+         itemTag = Constants.totalItem - (indexPath.section * Constants.numberOfItemsInSection + indexPath.item)
+        }
         descController?.itemTag = Int16(itemTag)
         parentNav?.navigationController?.pushViewController(descController ?? UIViewController(), animated: true)
     }
