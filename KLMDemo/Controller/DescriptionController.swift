@@ -55,9 +55,9 @@ class DescriptionController: UIViewController {
             return
         }
         let initialLocation = CLLocation(latitude:item.lattitude, longitude: item.longitude)
-
+        
         let artwork = Artwork(title: "\(itemTag ?? Int16(Constants.invalidItemTag))",
-                              coordinate:initialLocation.coordinate)
+            coordinate:initialLocation.coordinate)
         centerMapOnLocation(location:initialLocation)
         mapView?.addAnnotation(artwork)
     }

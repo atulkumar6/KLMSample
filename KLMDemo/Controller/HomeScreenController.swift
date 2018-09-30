@@ -78,19 +78,19 @@ class HomeScreenController: UIViewController {
     }
     private func getPageMenuOptions() -> [CAPSPageMenuOption] {
         return [.menuItemSeparatorWidth(Constants.menuItemSeparatorWidth),
-            .scrollMenuBackgroundColor(.whiteColorInstance),
-            .viewBackgroundColor(.viewBackgroundColor),
-            .bottomMenuHairlineColor(.bottomMenuHairlineColor),
-            .selectionIndicatorColor(.selectionIndicatorColor),
-            .menuMargin(Constants.menuMargin),
-            .menuHeight(Constants.menuHeight),
-            .selectedMenuItemLabelColor(.blue),
-            .unselectedMenuItemLabelColor(.lightGray),
-            .menuItemFont(UIFont(name:Constants.helvitica, size: Constants.menuItemFontSize) ?? UIFont()),
-            .useMenuLikeSegmentedControl(true),
-            .menuItemSeparatorRoundEdges(false),
-            .selectionIndicatorHeight(Constants.selectionIndicatorHeight),
-            .menuItemSeparatorPercentageHeight(Constants.menuItemSeparatorPercentageHeight)
+                .scrollMenuBackgroundColor(.whiteColorInstance),
+                .viewBackgroundColor(.viewBackgroundColor),
+                .bottomMenuHairlineColor(.bottomMenuHairlineColor),
+                .selectionIndicatorColor(.selectionIndicatorColor),
+                .menuMargin(Constants.menuMargin),
+                .menuHeight(Constants.menuHeight),
+                .selectedMenuItemLabelColor(.blue),
+                .unselectedMenuItemLabelColor(.lightGray),
+                .menuItemFont(UIFont(name:Constants.helvitica, size: Constants.menuItemFontSize) ?? UIFont()),
+                .useMenuLikeSegmentedControl(true),
+                .menuItemSeparatorRoundEdges(false),
+                .selectionIndicatorHeight(Constants.selectionIndicatorHeight),
+                .menuItemSeparatorPercentageHeight(Constants.menuItemSeparatorPercentageHeight)
         ]
         
     }
@@ -124,18 +124,18 @@ extension HomeScreenController:CAPSPageMenuDelegate {
 }
 // MARK: SearchBar  Delegate
 extension HomeScreenController:UISearchBarDelegate {
-     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == Constants.emptyText {
             delegate?.removeTextSearchBar()
         }
         else {
-        delegate?.filterCollectionItem(itemNumber:Int(searchBar.text ?? String(Constants.invalidItemTag)) ?? Constants.invalidItemTag)
+            delegate?.filterCollectionItem(itemNumber:Int(searchBar.text ?? String(Constants.invalidItemTag)) ?? Constants.invalidItemTag)
         }
-     }
+    }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-     @IBAction func cancelButtonAction() {
+    @IBAction func cancelButtonAction() {
         searchBar?.resignFirstResponder()
         searchBar?.text = Constants.emptyText
         searchBar?.isHidden = true

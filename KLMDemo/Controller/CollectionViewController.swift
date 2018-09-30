@@ -29,24 +29,24 @@ class CollectionViewController: UIViewController {
     private func saveDataInDataBase() {
         var itemCount = 1
         for i in 0..<(cordinatePlistArray?.count ?? Constants.invalidItemTag) {
-         let data = cordinatePlistArray?[i] ?? [String:NSNumber]()
-         let item = CollectionItem(context: coreDataManager.getContext())
-         item.isFavorite = false
-         item.tag = Int16(itemCount)
-         item.lattitude = data["latitude"]?.doubleValue ?? Constants.lattitude
-         item.longitude = data["longitude"]?.doubleValue ?? Constants.longitude
-         coreDataManager.insertRecordToDb(item)
-         itemCount += 1
-      }
+            let data = cordinatePlistArray?[i] ?? [String:NSNumber]()
+            let item = CollectionItem(context: coreDataManager.getContext())
+            item.isFavorite = false
+            item.tag = Int16(itemCount)
+            item.lattitude = data["latitude"]?.doubleValue ?? Constants.lattitude
+            item.longitude = data["longitude"]?.doubleValue ?? Constants.longitude
+            coreDataManager.insertRecordToDb(item)
+            itemCount += 1
+        }
         defer {
             coreDataManager.saveContext()
         }
     }
-  }
+}
 // protocol extension
 extension CollectionItemProtocol {
     typealias searchItemTextType = Int
-   
+    
 }
 // protocol definitation
 extension CollectionViewController:CollectionItemProtocol {
@@ -79,21 +79,21 @@ extension CollectionViewController:HomeScreenProtocol {
     }
 }
 extension CollectionViewController:UICollectionViewDataSource {
-     func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return totalSections
     }
-     func collectionView(_ collectionView: UICollectionView,
-                                 numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         if totalSections == Constants.oneSection {
             return Constants.oneSection
         }
         if section == totalSections - 1 {
-           return Constants.numberOfItemsInLastSection
+            return Constants.numberOfItemsInLastSection
         }
         return Constants.numberOfItemsInSection
     }
-     func collectionView(_ collectionView: UICollectionView,
-                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: reuseIdentifier, for: indexPath) as? CollectionCell
         var itemTag = Constants.invalidItemTag
@@ -101,7 +101,7 @@ extension CollectionViewController:UICollectionViewDataSource {
             itemTag = searchItemNumber
         }
         else {
-         itemTag = Constants.totalItem - ((indexPath.section * Constants.numberOfItemsInSection) + indexPath.item)
+            itemTag = Constants.totalItem - ((indexPath.section * Constants.numberOfItemsInSection) + indexPath.item)
         }
         cell?.tagLabel?.text = String(itemTag)
         // fetching records from core data
@@ -111,10 +111,10 @@ extension CollectionViewController:UICollectionViewDataSource {
         }
         return cell ?? CollectionCell()
     }
- }
+}
 extension CollectionViewController:UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let descController = Helper.getControllerInstance(Constants.descriptionControllerId) as? DescriptionController
+        let descriptionController = Helper.getControllerInstance(Constants.descriptionControllerId) as? DescriptionController
         var itemTag = Constants.invalidItemTag
         if totalSections == Constants.oneSection  {
             itemTag = searchItemNumber
@@ -122,8 +122,8 @@ extension CollectionViewController:UICollectionViewDelegate {
         else {
             itemTag = Constants.totalItem - (indexPath.section * Constants.numberOfItemsInSection + indexPath.item)
         }
-        descController?.itemTag = Int16(itemTag)
-        parentController?.navigationController?.pushViewController(descController ?? UIViewController(), animated: true)
+        descriptionController?.itemTag = Int16(itemTag)
+        parentController?.navigationController?.pushViewController(descriptionController ?? UIViewController(), animated: true)
     }
 }
 extension CollectionViewController:UICollectionViewDelegateFlowLayout {

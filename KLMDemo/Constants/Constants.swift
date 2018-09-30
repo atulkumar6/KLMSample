@@ -46,4 +46,14 @@ class Constants {
     static let menuItemSeparatorPercentageHeight:CGFloat = 0.1
     static let markAsFavouriteText = "Mark as favourite"
     static let unmarkAsFavouriteText = "Unmark as favourite"
+    static let informationCellCount = 4
+    static let aboutKLMText = "About KLM Delft Blue houses"
+    static let historyKLMText = "History of KLM Delft Blue houses"
+    static let contactKLMText = "Contact KLM"
+    static let shareYourFeedbackText = "Share your feedback"
+    static let versionText = "version "
+    static let dotText = "."
+
+
+
 }
