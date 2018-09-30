@@ -11,9 +11,9 @@ import UIKit
 
 class CollectionCell:UICollectionViewCell {
     // Cell Objects
-    @IBOutlet weak var imgVwHome: UIImageView?
-    @IBOutlet weak var lblTag: UILabel?
-    @IBOutlet weak var imgvwFav: UIImageView?
+    @IBOutlet weak var homeImageView: UIImageView?
+    @IBOutlet weak var tagLabel: UILabel?
+    @IBOutlet weak var favoriteImageView: UIImageView?
     // NibLifeCycle
     override func awakeFromNib() {
         super.awakeFromNib()

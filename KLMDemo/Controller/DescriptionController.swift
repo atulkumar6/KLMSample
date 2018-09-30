@@ -11,10 +11,10 @@ import UIKit
 import MapKit
 import CoreData
 
-class DescriptionController: UIViewController,MKMapViewDelegate {
+class DescriptionController: UIViewController {
     // UI Outles
-    @IBOutlet var btnIsFav:UIButton?
-    @IBOutlet var mapVw:MKMapView?
+    @IBOutlet var favoriteButton:UIButton?
+    @IBOutlet var mapView:MKMapView?
     // Class Attributes, declared as optional
     let coreDataManager = CoreDataManager()
     var itemTag:Int16?
@@ -22,16 +22,20 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        setupFavoriteButton()
+        setMapView()
+    }
+    private func setupFavoriteButton() {
         // If let optional binding
         if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
-                if item.isFavorite {
-                btnIsFav?.backgroundColor = UIColor.red
-                btnIsFav?.setTitle(Constants.unmarkAsFavouriteText, for: .normal)
-                btnIsFav?.isSelected = true
-                }
+            // Guard Statement
+            guard !item.isFavorite else {
+                favoriteButton?.backgroundColor = .red
+                favoriteButton?.setTitle(Constants.unmarkAsFavouriteText, for: .normal)
+                favoriteButton?.isSelected = true
+                return
             }
-        
-        setMapView()
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -45,45 +49,43 @@ class DescriptionController: UIViewController,MKMapViewDelegate {
         func centerMapOnLocation(location: CLLocation) {
             let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                       regionRadius, regionRadius)
-            mapVw?.setRegion(coordinateRegion, animated: true)
+            mapView?.setRegion(coordinateRegion, animated: true)
         }
         let initialLocation = CLLocation(latitude: Constants.lattitude, longitude: Constants.longitude)
 
         let artwork = Artwork(title: "\(itemTag ?? Int16(Constants.invalidItemTag))",
                               coordinate: CLLocationCoordinate2D(latitude: Constants.lattitude, longitude:Constants.longitude))
         centerMapOnLocation(location:initialLocation)
-        mapVw?.addAnnotation(artwork)
+        mapView?.addAnnotation(artwork)
     }
     // MARK: UIButton Actions
-    @IBAction func btnIsFavClick() {
-        if btnIsFav?.isSelected ?? false {
-            btnIsFav?.isSelected = false
-            btnIsFav?.setTitle(Constants.markAsFavouriteText, for: .normal)
-            btnIsFav?.backgroundColor = UIColor.white
+    @IBAction func favoriteButtonAction() {
+        if favoriteButton?.isSelected ?? false {
+            favoriteButton?.isSelected = false
+            favoriteButton?.setTitle(Constants.markAsFavouriteText, for: .normal)
+            favoriteButton?.backgroundColor = .white
             // If let optional binding
             if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
                 item.isFavorite = false
             }
         }
         else {
-            btnIsFav?.isSelected = true
-            btnIsFav?.setTitle(Constants.unmarkAsFavouriteText, for: .normal)
-            btnIsFav?.backgroundColor = UIColor.red
+            favoriteButton?.isSelected = true
+            favoriteButton?.setTitle(Constants.unmarkAsFavouriteText, for: .normal)
+            favoriteButton?.backgroundColor = .red
             // MARK: If let optional binding
             if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
                 item.isFavorite = true
             }
             else {
                 // creating objects into context, injecting itemtag and Bool value dependency.
-                coreDataManager.insertRecordToDb(itemTag ?? Int16(Constants.invalidItemTag),btnIsFav?.isSelected ?? false)
+                coreDataManager.insertRecordToDb(itemTag ?? Int16(Constants.invalidItemTag),favoriteButton?.isSelected ?? false)
                }
         }
         // MARK : Swift Defer Statement
         defer {
             coreDataManager.saveContext()
         }
-        
     }
     
-   
 }

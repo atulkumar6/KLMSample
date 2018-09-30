@@ -11,24 +11,32 @@ import myPod
 import CoreData
 
 // MARK: Custom Protocol
-protocol HomeScreenProtocol {
+protocol CollectionItemProtocol {
+    associatedtype searchItemTextType
+    var searchItemNumber:searchItemTextType {get}
+    func removeItemNumber()
+}
+protocol SearchTextProtocol {
+    func removeTextSearchBar()
+}
+protocol HomeScreenProtocol:SearchTextProtocol {
     func reloadCollectionView()
     func filterCollectionItem(itemNumber:Int)
-    func clearTextSearchBar()
 }
+
 class HomeScreenController: UIViewController {
     // UI Outles
-    @IBOutlet var vwTopBar: UIView?
-    @IBOutlet var lblTopBarTitle:UILabel?
-    @IBOutlet var btnCancel:UIButton?
-    @IBOutlet var btnSearch:UIButton?
+    @IBOutlet var topBarView: UIView?
+    @IBOutlet var topBarTitleLabel:UILabel?
+    @IBOutlet var cancelButton:UIButton?
+    @IBOutlet var searchButton:UIButton?
     @IBOutlet var tabBar:UITabBar?
     @IBOutlet var searchBar:UISearchBar?
-    @IBOutlet var vwCollection:UIView?
+    @IBOutlet var collectionView:UIView?
     // Class Attributes
     fileprivate var pageMenu:CAPSPageMenu?
     fileprivate var delegate:HomeScreenProtocol?
-    var collectionCntrl:CollectionViewController?
+    var collectionViewController:CollectionViewController?
     // MARK: ViewLifeCycle
     //1
     override func viewDidLoad() {
@@ -45,39 +53,39 @@ class HomeScreenController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.navigationBar.isHidden = true
-        collectionCntrl = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
-        collectionCntrl?.vwCollection?.reloadData()
+        collectionViewController = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
+        collectionViewController?.collectionView?.reloadData()
         delegate?.reloadCollectionView()
     }
     private func setupPageMenu() {
         var controllerArray : [UIViewController] = []
-        let collectionCntrl = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
-        collectionCntrl?.parentNav = self
-        delegate = collectionCntrl
-        collectionCntrl?.title = Constants.collectionViewNavBarTitle
-        collectionCntrl?.view.frame = CGRect(x: 0.0, y:0, width: (vwCollection?.frame.width) ?? 0, height: (vwCollection?.frame.height) ?? 0)
-        controllerArray.append(collectionCntrl ?? UIViewController())
+        let collectionController = Helper.getControllerInstance(Constants.collectionViewControllerId) as? CollectionViewController
+        collectionController?.parentController = self
+        delegate = collectionController
+        collectionController?.title = Constants.collectionViewNavBarTitle
+        collectionController?.view.frame = CGRect(x: 0.0, y:0, width: (collectionView?.frame.width) ?? 0, height: (collectionView?.frame.height) ?? 0)
+        controllerArray.append(collectionController ?? UIViewController())
         let informationController = Helper.getControllerInstance(Constants.informationViewControllerId) as? InformationController
-        informationController?.view.frame = CGRect(x: 0.0, y:0, width: (vwCollection?.frame.width) ?? 0, height: (vwCollection?.frame.height) ?? 0)
+        informationController?.view.frame = CGRect(x: 0.0, y:0, width: (collectionView?.frame.width) ?? 0, height: (collectionView?.frame.height) ?? 0)
         informationController?.title = Constants.informationTitle
         controllerArray.append(informationController ?? UIViewController())
         let parameters = getPageMenuOptions()
         // Initialize scroll menu
-        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (vwCollection?.frame.height) ?? 0), pageMenuOptions: parameters)
+        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (collectionView?.frame.height) ?? 0), pageMenuOptions: parameters)
         pageMenu?.delegate = self
-        vwCollection?.addSubview((pageMenu?.view) ?? UIView());
+        collectionView?.addSubview((pageMenu?.view) ?? UIView());
         addConstraintOnPageMenu()
     }
     private func getPageMenuOptions() -> [CAPSPageMenuOption] {
         return [.menuItemSeparatorWidth(Constants.menuItemSeparatorWidth),
-            .scrollMenuBackgroundColor(UIColor.whiteColorInstance),
-            .viewBackgroundColor(UIColor.viewBackgroundColor),
-            .bottomMenuHairlineColor(UIColor.bottomMenuHairlineColor),
-            .selectionIndicatorColor(UIColor.selectionIndicatorColor),
+            .scrollMenuBackgroundColor(.whiteColorInstance),
+            .viewBackgroundColor(.viewBackgroundColor),
+            .bottomMenuHairlineColor(.bottomMenuHairlineColor),
+            .selectionIndicatorColor(.selectionIndicatorColor),
             .menuMargin(Constants.menuMargin),
             .menuHeight(Constants.menuHeight),
-            .selectedMenuItemLabelColor(UIColor.blue),
-            .unselectedMenuItemLabelColor(UIColor.lightGray),
+            .selectedMenuItemLabelColor(.blue),
+            .unselectedMenuItemLabelColor(.lightGray),
             .menuItemFont(UIFont(name:Constants.helvitica, size: Constants.menuItemFontSize) ?? UIFont()),
             .useMenuLikeSegmentedControl(true),
             .menuItemSeparatorRoundEdges(false),
@@ -89,15 +97,13 @@ class HomeScreenController: UIViewController {
     private func addConstraintOnPageMenu() {
         pageMenu?.view.translatesAutoresizingMaskIntoConstraints = false;
         // adding constraints programmaticaly.
-        let dictPageMenuView:[String:UIView] = ["pageMenuVw":pageMenu?.view ?? UIView()];
-        let horizontalConstraintVw = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuVw]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuView)
-        let verticalConstraintVw = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuVw]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuView)
-        NSLayoutConstraint.activate(horizontalConstraintVw)
-        NSLayoutConstraint.activate(verticalConstraintVw)
+        let horizontalConstraintView = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuView]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuView":pageMenu?.view ?? UIView()])
+        let verticalConstraintView = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuView]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuView":pageMenu?.view ?? UIView()])
+        NSLayoutConstraint.activate(horizontalConstraintView)
+        NSLayoutConstraint.activate(verticalConstraintView)
         pageMenu?.menuScrollView.translatesAutoresizingMaskIntoConstraints = false;
-        let dictPageMenuScroll:[String:UIView] = ["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()];
-        let horizontalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
-        let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0@250-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:dictPageMenuScroll)
+        let horizontalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()])
+        let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0@250-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()])
         NSLayoutConstraint.activate(horizontalConstraintScroll)
         NSLayoutConstraint.activate(verticalConstraintScroll)
     }
@@ -108,9 +114,9 @@ extension HomeScreenController:CAPSPageMenuDelegate {
         // Swift switch case
         switch index {
         case 0:
-            lblTopBarTitle?.text = Constants.collectionViewNavBarTitle
+            topBarTitleLabel?.text = Constants.collectionViewNavBarTitle
         case 1:
-            lblTopBarTitle?.text = Constants.informationTitle
+            topBarTitleLabel?.text = Constants.informationTitle
         default:
             break
         }
@@ -120,7 +126,7 @@ extension HomeScreenController:CAPSPageMenuDelegate {
 extension HomeScreenController:UISearchBarDelegate {
      func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == Constants.emptyText {
-            delegate?.clearTextSearchBar()
+            delegate?.removeTextSearchBar()
         }
         else {
         delegate?.filterCollectionItem(itemNumber:Int(searchBar.text ?? String(Constants.invalidItemTag)) ?? Constants.invalidItemTag)
@@ -129,16 +135,16 @@ extension HomeScreenController:UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-     @IBAction func btnCancelClicked() {
+     @IBAction func cancelButtonAction() {
         searchBar?.resignFirstResponder()
         searchBar?.text = Constants.emptyText
         searchBar?.isHidden = true
-        btnCancel?.isHidden = true
-        delegate?.clearTextSearchBar()
+        cancelButton?.isHidden = true
+        delegate?.removeTextSearchBar()
     }
-    @IBAction func btnSearchClicked() {
+    @IBAction func searchButtonAction() {
         searchBar?.isHidden = false
-        btnCancel?.isHidden = false
+        cancelButton?.isHidden = false
     }
 }
 extension HomeScreenController:UITabBarDelegate {
