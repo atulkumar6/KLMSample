@@ -86,5 +86,4 @@ class DescriptionController: UIViewController {
             coreDataManager.saveContext()
         }
     }
-    
 }

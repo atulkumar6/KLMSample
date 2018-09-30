@@ -48,7 +48,6 @@ extension InformationController:UITableViewDataSource {
         }
         return cell ?? UITableViewCell()
     }
-    
 }
 
 

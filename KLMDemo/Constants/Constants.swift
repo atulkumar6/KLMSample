@@ -53,7 +53,4 @@ class Constants {
     static let shareYourFeedbackText = "Share your feedback"
     static let versionText = "version "
     static let dotText = "."
-
-
-
 }

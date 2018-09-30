@@ -315,7 +315,6 @@
                                 <sections/>
                                 <connections>
                                     <outlet property="dataSource" destination="qg3-UV-Ljr" id="ns5-UY-uzY"/>
-                                    <outlet property="delegate" destination="qg3-UV-Ljr" id="I9k-8x-RFy"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jfw-Ns-DYZ">
