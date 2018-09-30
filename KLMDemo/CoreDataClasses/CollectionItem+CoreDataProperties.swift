@@ -18,5 +18,6 @@ extension CollectionItem {
 
     @NSManaged public var isFavorite: Bool
     @NSManaged public var tag: Int16
-
+    @NSManaged public var lattitude: Double
+    @NSManaged public var longitude: Double
 }

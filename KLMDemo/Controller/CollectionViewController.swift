@@ -19,11 +19,30 @@ class CollectionViewController: UIViewController {
     let coreDataManager = CoreDataManager()
     var filteredItemNumber = Constants.invalidItemTag
     fileprivate var totalSections = Constants.totalSections
+    fileprivate var cordinatePlistArray:[Dictionary<String,NSNumber>]?
     // MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        cordinatePlistArray = Helper.readPlist()
+        saveDataInDataBase()
     }
-}
+    private func saveDataInDataBase() {
+        var itemCount = 1
+        for i in 0..<(cordinatePlistArray?.count ?? Constants.invalidItemTag) {
+         let data = cordinatePlistArray?[i] ?? [String:NSNumber]()
+         let item = CollectionItem(context: coreDataManager.getContext())
+         item.isFavorite = false
+         item.tag = Int16(itemCount)
+         item.lattitude = data["latitude"]?.doubleValue ?? Constants.lattitude
+         item.longitude = data["longitude"]?.doubleValue ?? Constants.longitude
+         coreDataManager.insertRecordToDb(item)
+         itemCount += 1
+      }
+        defer {
+            coreDataManager.saveContext()
+        }
+    }
+  }
 // protocol extension
 extension CollectionItemProtocol {
     typealias searchItemTextType = Int
@@ -89,9 +108,6 @@ extension CollectionViewController:UICollectionViewDataSource {
         if let item = coreDataManager.fetchRecordFromDb(Int16(itemTag))?.first {
             // MARK: Optional Chaining
             cell?.favoriteImageView?.isHidden = !item.isFavorite
-        }
-        else {
-            cell?.favoriteImageView?.isHidden = true
         }
         return cell ?? CollectionCell()
     }

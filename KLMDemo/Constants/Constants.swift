@@ -35,8 +35,8 @@ class Constants {
     static let collectionItem = "CollectionItem"
     // Location Attributes Constants
     static let regionRadius = 1000
-    static let lattitude = 21.282778
-    static let longitude = -157.829444
+    static let lattitude = 71.282778
+    static let longitude = -128.829444
     // HomeScreenController PagemenuOption Attributes
     static let menuItemSeparatorWidth:CGFloat = 4.3
     static let menuMargin:CGFloat = 20

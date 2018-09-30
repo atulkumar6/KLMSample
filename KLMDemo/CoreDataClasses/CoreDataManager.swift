@@ -25,8 +25,8 @@ class CoreDataManager {
         })
         return container
     }()
-    func getContext() -> NSManagedObjectContext? {
-        return context
+    func getContext() -> NSManagedObjectContext {
+        return context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     }
     // MARK: Accessing data from Core data.
     func fetchRecordFromDb(_ itemTag:Int16) -> [CollectionItem]? {
@@ -35,12 +35,13 @@ class CoreDataManager {
         let fetchResult = try? context?.fetch(fetchReq) ?? nil
         return fetchResult ?? nil
     }
-    func insertRecordToDb(_ itemTag:Int16, _ isSelected:Bool) {
+    func insertRecordToDb(_ collectionItem:CollectionItem) {
         let entity = NSEntityDescription.entity(forEntityName: Constants.collectionItem, in: context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)) ?? NSEntityDescription()
         let newItem = NSManagedObject(entity: entity, insertInto: context) as? CollectionItem
-        newItem?.tag = itemTag
-        newItem?.isFavorite = isSelected
-       
+        newItem?.tag = collectionItem.tag
+        newItem?.isFavorite = collectionItem.isFavorite
+        newItem?.lattitude = collectionItem.lattitude
+        newItem?.longitude = collectionItem.longitude
     }
     // MARK: - Core Data Saving support
     func saveContext () {
@@ -51,8 +52,6 @@ class CoreDataManager {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
-            
         }
     }
-   
 }

@@ -153,32 +153,6 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img1" translatesAutoresizingMaskIntoConstraints="NO" id="zuW-VZ-GZy">
                                                     <rect key="frame" x="20" y="10" width="210" height="220"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="210" id="6xz-cP-4Du"/>
-                                                        <constraint firstAttribute="width" constant="60" id="FU2-Vh-SJc"/>
-                                                        <constraint firstAttribute="height" constant="70" id="UQN-cD-cE6"/>
-                                                        <constraint firstAttribute="height" constant="220" id="srw-XJ-uqq"/>
-                                                    </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="6xz-cP-4Du"/>
-                                                            <exclude reference="FU2-Vh-SJc"/>
-                                                            <exclude reference="UQN-cD-cE6"/>
-                                                            <exclude reference="srw-XJ-uqq"/>
-                                                        </mask>
-                                                    </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <mask key="constraints">
-                                                            <include reference="FU2-Vh-SJc"/>
-                                                            <include reference="UQN-cD-cE6"/>
-                                                        </mask>
-                                                    </variation>
-                                                    <variation key="heightClass=regular-widthClass=regular">
-                                                        <mask key="constraints">
-                                                            <include reference="6xz-cP-4Du"/>
-                                                            <include reference="srw-XJ-uqq"/>
-                                                        </mask>
-                                                    </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Mt-oe-QSz">
                                                     <rect key="frame" x="4" y="229" width="242" height="21"/>

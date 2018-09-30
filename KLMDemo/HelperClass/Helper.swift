@@ -16,4 +16,12 @@ class Helper {
         let controllerInstance = storyboard.instantiateViewController(withIdentifier:str)
         return controllerInstance
     }
+    static func readPlist() -> [Dictionary<String,NSNumber>]? {
+        guard let path = Bundle.main.path(forResource: "Coordinate", ofType: "plist") else {
+            return nil
+        }
+        let itemArray = NSArray(contentsOfFile: path)
+        // bridging NSArray to Swift Array
+        return itemArray as? [Dictionary<String,NSNumber>]
+    }
 }

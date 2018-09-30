@@ -51,10 +51,13 @@ class DescriptionController: UIViewController {
                                                                       regionRadius, regionRadius)
             mapView?.setRegion(coordinateRegion, animated: true)
         }
-        let initialLocation = CLLocation(latitude: Constants.lattitude, longitude: Constants.longitude)
+        guard let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first else{
+            return
+        }
+        let initialLocation = CLLocation(latitude:item.lattitude, longitude: item.longitude)
 
         let artwork = Artwork(title: "\(itemTag ?? Int16(Constants.invalidItemTag))",
-                              coordinate: CLLocationCoordinate2D(latitude: Constants.lattitude, longitude:Constants.longitude))
+                              coordinate:initialLocation.coordinate)
         centerMapOnLocation(location:initialLocation)
         mapView?.addAnnotation(artwork)
     }
@@ -77,10 +80,6 @@ class DescriptionController: UIViewController {
             if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
                 item.isFavorite = true
             }
-            else {
-                // creating objects into context, injecting itemtag and Bool value dependency.
-                coreDataManager.insertRecordToDb(itemTag ?? Int16(Constants.invalidItemTag),favoriteButton?.isSelected ?? false)
-               }
         }
         // MARK : Swift Defer Statement
         defer {
