@@ -64,16 +64,22 @@ class HomeScreenController: UIViewController {
         delegate = collectionController
         collectionController?.title = Constants.collectionViewNavBarTitle
         collectionController?.view.frame = CGRect(x: 0.0, y:0, width: (collectionView?.frame.width) ?? 0, height: (collectionView?.frame.height) ?? 0)
-        controllerArray.append(collectionController ?? UIViewController())
+        if let controller = collectionController {
+            controllerArray.append(controller)
+        }
         let informationController = Helper.getControllerInstance(Constants.informationViewControllerId) as? InformationController
         informationController?.view.frame = CGRect(x: 0.0, y:0, width: (collectionView?.frame.width) ?? 0, height: (collectionView?.frame.height) ?? 0)
         informationController?.title = Constants.informationTitle
-        controllerArray.append(informationController ?? UIViewController())
+        if let controller = informationController {
+            controllerArray.append(controller)
+        }
         let parameters = getPageMenuOptions()
         // Initialize scroll menu
         pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (collectionView?.frame.height) ?? 0), pageMenuOptions: parameters)
         pageMenu?.delegate = self
-        collectionView?.addSubview((pageMenu?.view) ?? UIView());
+        if let view = pageMenu?.view {
+            collectionView?.addSubview(view);
+        }
         addConstraintOnPageMenu()
     }
     private func getPageMenuOptions() -> [CAPSPageMenuOption] {
@@ -97,15 +103,31 @@ class HomeScreenController: UIViewController {
     private func addConstraintOnPageMenu() {
         pageMenu?.view.translatesAutoresizingMaskIntoConstraints = false;
         // adding constraints programmaticaly.
-        let horizontalConstraintView = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuView]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuView":pageMenu?.view ?? UIView()])
-        let verticalConstraintView = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuView]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuView":pageMenu?.view ?? UIView()])
-        NSLayoutConstraint.activate(horizontalConstraintView)
-        NSLayoutConstraint.activate(verticalConstraintView)
-        pageMenu?.menuScrollView.translatesAutoresizingMaskIntoConstraints = false;
-        let horizontalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()])
-        let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0@250-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuScroll":pageMenu?.menuScrollView ?? UIView()])
-        NSLayoutConstraint.activate(horizontalConstraintScroll)
-        NSLayoutConstraint.activate(verticalConstraintScroll)
+        if let view = pageMenu?.view {
+            let horizontalConstraintView = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuView]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuView":view])
+            let verticalConstraintView = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuView]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuView":view])
+            NSLayoutConstraint.activate(horizontalConstraintView)
+            NSLayoutConstraint.activate(verticalConstraintView)
+        }
+        if let menuScrollView = pageMenu?.menuScrollView {
+            pageMenu?.menuScrollView.translatesAutoresizingMaskIntoConstraints = false;
+            let horizontalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"H:|-0-[pageMenuScroll]-0-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuScroll":menuScrollView])
+            let verticalConstraintScroll = NSLayoutConstraint.constraints(withVisualFormat:"V:|-0-[pageMenuScroll]-0@250-|" , options:NSLayoutFormatOptions(rawValue: 0), metrics:nil, views:["pageMenuScroll":menuScrollView])
+            NSLayoutConstraint.activate(horizontalConstraintScroll)
+            NSLayoutConstraint.activate(verticalConstraintScroll)
+        }
+    }
+    // MARK: Button Actions
+    @IBAction func cancelButtonAction() {
+        searchBar?.resignFirstResponder()
+        searchBar?.text = Constants.emptyText
+        searchBar?.isHidden = true
+        cancelButton?.isHidden = true
+        delegate?.removeTextSearchBar()
+    }
+    @IBAction func searchButtonAction() {
+        searchBar?.isHidden = false
+        cancelButton?.isHidden = false
     }
 }
 // MARK: PageMenu Delegate
@@ -129,23 +151,13 @@ extension HomeScreenController:UISearchBarDelegate {
             delegate?.removeTextSearchBar()
         }
         else {
-            delegate?.filterCollectionItem(itemNumber:Int(searchBar.text ?? String(Constants.invalidItemTag)) ?? Constants.invalidItemTag)
+            delegate?.filterCollectionItem(itemNumber:Int(searchText) ?? Constants.invalidItemTag)
         }
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-    @IBAction func cancelButtonAction() {
-        searchBar?.resignFirstResponder()
-        searchBar?.text = Constants.emptyText
-        searchBar?.isHidden = true
-        cancelButton?.isHidden = true
-        delegate?.removeTextSearchBar()
-    }
-    @IBAction func searchButtonAction() {
-        searchBar?.isHidden = false
-        cancelButton?.isHidden = false
-    }
+    
 }
 extension HomeScreenController:UITabBarDelegate {
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {

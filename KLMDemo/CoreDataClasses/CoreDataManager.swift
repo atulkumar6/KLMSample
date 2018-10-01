@@ -12,7 +12,7 @@ import CoreData
 
 class CoreDataManager {
     
-    fileprivate lazy var context:NSManagedObjectContext? = {
+    fileprivate lazy var context:NSManagedObjectContext = {
         return persistentContainer.viewContext
     }()
     // MARK: - Core Data stack
@@ -26,17 +26,19 @@ class CoreDataManager {
         return container
     }()
     func getContext() -> NSManagedObjectContext {
-        return context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        return context
     }
     // MARK: Accessing data from Core data.
     func fetchRecordFromDb(_ itemTag:Int16) -> [CollectionItem]? {
         let fetchReq = NSFetchRequest<CollectionItem>(entityName: Constants.collectionItem)
         fetchReq.predicate = NSPredicate(format: "tag == %d",itemTag)
-        let fetchResult = try? context?.fetch(fetchReq) ?? nil
-        return fetchResult ?? nil
+        let fetchResult = try? context.fetch(fetchReq)
+        return fetchResult
     }
     func insertRecordToDb(_ collectionItem:CollectionItem) {
-        let entity = NSEntityDescription.entity(forEntityName: Constants.collectionItem, in: context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)) ?? NSEntityDescription()
+        guard let entity = NSEntityDescription.entity(forEntityName: Constants.collectionItem, in: context) else {
+            return
+        }
         let newItem = NSManagedObject(entity: entity, insertInto: context) as? CollectionItem
         newItem?.tag = collectionItem.tag
         newItem?.isFavorite = collectionItem.isFavorite
@@ -45,9 +47,9 @@ class CoreDataManager {
     }
     // MARK: - Core Data Saving support
     func saveContext () {
-        if context?.hasChanges == true {
+        if context.hasChanges == true {
             do {
-                try context?.save()
+                try context.save()
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")

@@ -15,9 +15,9 @@ class DescriptionController: UIViewController {
     // UI Outles
     @IBOutlet var favoriteButton:UIButton?
     @IBOutlet var mapView:MKMapView?
-    // Class Attributes, declared as optional
+    
     let coreDataManager = CoreDataManager()
-    var itemTag:Int16?
+    var itemTag = Int16(Constants.invalidItemTag)
     // MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +25,16 @@ class DescriptionController: UIViewController {
         setupFavoriteButton()
         setMapView()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationItem.hidesBackButton = false
+        navigationController?.navigationBar.isHidden = false
+        title = "\(itemTag.hashValue)"
+    }
+    // MARK: Private Methods
     private func setupFavoriteButton() {
         // If let optional binding
-        if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
+        if let item = coreDataManager.fetchRecordFromDb(itemTag)?.first {
             // Guard Statement
             guard !item.isFavorite else {
                 favoriteButton?.backgroundColor = .red
@@ -37,13 +44,7 @@ class DescriptionController: UIViewController {
             }
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        navigationItem.hidesBackButton = false
-        navigationController?.navigationBar.isHidden = false
-        title = "\(itemTag?.hashValue ?? Constants.invalidItemTag)"
-    }
-    fileprivate func setMapView() {
+    private func setMapView() {
         let regionRadius: CLLocationDistance = CLLocationDistance(Constants.regionRadius)
         //MARK: Nested function
         func centerMapOnLocation(location: CLLocation) {
@@ -51,12 +52,12 @@ class DescriptionController: UIViewController {
                                                                       regionRadius, regionRadius)
             mapView?.setRegion(coordinateRegion, animated: true)
         }
-        guard let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first else{
+        guard let item = coreDataManager.fetchRecordFromDb(itemTag)?.first else{
             return
         }
         let initialLocation = CLLocation(latitude:item.lattitude, longitude: item.longitude)
         
-        let artwork = Artwork(title: "\(itemTag ?? Int16(Constants.invalidItemTag))",
+        let artwork = Artwork(title: "\(itemTag)",
             coordinate:initialLocation.coordinate)
         centerMapOnLocation(location:initialLocation)
         mapView?.addAnnotation(artwork)
@@ -68,7 +69,7 @@ class DescriptionController: UIViewController {
             favoriteButton?.setTitle(Constants.markAsFavouriteText, for: .normal)
             favoriteButton?.backgroundColor = .white
             // If let optional binding
-            if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
+            if let item = coreDataManager.fetchRecordFromDb(itemTag)?.first {
                 item.isFavorite = false
             }
         }
@@ -77,7 +78,7 @@ class DescriptionController: UIViewController {
             favoriteButton?.setTitle(Constants.unmarkAsFavouriteText, for: .normal)
             favoriteButton?.backgroundColor = .red
             // MARK: If let optional binding
-            if let item = coreDataManager.fetchRecordFromDb(itemTag ?? Int16(Constants.invalidItemTag))?.first {
+            if let item = coreDataManager.fetchRecordFromDb(itemTag)?.first {
                 item.isFavorite = true
             }
         }

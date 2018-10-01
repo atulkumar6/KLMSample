@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KLMDemo/Controller/HomeScreenController.swift"
-            timestampString = "560029191.787088"
+            timestampString = "560101689.368396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KLMDemo/Controller/DescriptionController.swift"
-            timestampString = "560029191.787478"
+            timestampString = "560101689.368857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "centerMapOnLocation(location:)"
             landmarkType = "9">
          </BreakpointContent>

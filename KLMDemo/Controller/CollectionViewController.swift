@@ -14,27 +14,31 @@ class CollectionViewController: UIViewController {
     // UI Outles
     @IBOutlet var collectionView:UICollectionView?
     // Class Attributes
-    fileprivate let reuseIdentifier = "collection"
     var parentController:UIViewController?
-    let coreDataManager = CoreDataManager()
     var filteredItemNumber = Constants.invalidItemTag
     fileprivate var totalSections = Constants.totalSections
-    fileprivate var cordinatePlistArray:[Dictionary<String,NSNumber>]?
+    fileprivate var locationCoordinates:[Dictionary<String,NSNumber>]?
+    
+    fileprivate let reuseIdentifier = "collection"
+    let coreDataManager = CoreDataManager()
+    
     // MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        cordinatePlistArray = Helper.readPlist()
+        locationCoordinates = Helper.readPlist()
         saveDataInDataBase()
     }
     private func saveDataInDataBase() {
         var itemCount = 1
-        for i in 0..<(cordinatePlistArray?.count ?? Constants.invalidItemTag) {
-            let data = cordinatePlistArray?[i] ?? [String:NSNumber]()
+        for i in 0..<(locationCoordinates?.count ?? Constants.invalidItemTag) {
+            let data = locationCoordinates?[i]
             let item = CollectionItem(context: coreDataManager.getContext())
             item.isFavorite = false
             item.tag = Int16(itemCount)
-            item.lattitude = data["latitude"]?.doubleValue ?? Constants.lattitude
-            item.longitude = data["longitude"]?.doubleValue ?? Constants.longitude
+            if let lattitude = data?["latitude"]?.doubleValue, let longitude = data?["longitude"]?.doubleValue {
+                item.lattitude = lattitude
+                item.longitude = longitude
+            }
             coreDataManager.insertRecordToDb(item)
             itemCount += 1
         }
@@ -46,7 +50,6 @@ class CollectionViewController: UIViewController {
 // protocol extension
 extension CollectionItemProtocol {
     typealias searchItemTextType = Int
-    
 }
 // protocol definitation
 extension CollectionViewController:CollectionItemProtocol {
@@ -123,7 +126,9 @@ extension CollectionViewController:UICollectionViewDelegate {
             itemTag = Constants.totalItem - (indexPath.section * Constants.numberOfItemsInSection + indexPath.item)
         }
         descriptionController?.itemTag = Int16(itemTag)
-        parentController?.navigationController?.pushViewController(descriptionController ?? UIViewController(), animated: true)
+        if let controller = descriptionController {
+            parentController?.navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }
 extension CollectionViewController:UICollectionViewDelegateFlowLayout {

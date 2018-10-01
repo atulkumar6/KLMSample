@@ -10,12 +10,11 @@ import Foundation
 import UIKit
 
 class InformationController:UIViewController {
-    
     // UI Outles
     @IBOutlet var tableView:UITableView?
     @IBOutlet var versionLabel:UILabel?
-    fileprivate let cellIdentifier =  "cell"
     
+    fileprivate let cellIdentifier =  "cell"
     
     override func viewDidLoad() {
         super.viewDidLoad()

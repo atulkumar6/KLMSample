@@ -44,6 +44,7 @@ class Constants {
     static let menuItemFontSize:CGFloat = 13.0
     static let selectionIndicatorHeight:CGFloat = 2.0
     static let menuItemSeparatorPercentageHeight:CGFloat = 0.1
+    // InformationController Constants
     static let markAsFavouriteText = "Mark as favourite"
     static let unmarkAsFavouriteText = "Unmark as favourite"
     static let informationCellCount = 4
