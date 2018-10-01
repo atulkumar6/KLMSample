@@ -63,22 +63,25 @@ class HomeScreenController: UIViewController {
         collectionController?.parentController = self
         delegate = collectionController
         collectionController?.title = Constants.collectionViewNavBarTitle
-        collectionController?.view.frame = CGRect(x: 0.0, y:0, width: (collectionView?.frame.width) ?? 0, height: (collectionView?.frame.height) ?? 0)
+        guard let collectionView = collectionView else{
+            return
+        }
+        collectionController?.view.frame = CGRect(x: 0.0, y:0, width: collectionView.frame.width, height: collectionView.frame.height)
         if let controller = collectionController {
             controllerArray.append(controller)
         }
         let informationController = Helper.getControllerInstance(Constants.informationViewControllerId) as? InformationController
-        informationController?.view.frame = CGRect(x: 0.0, y:0, width: (collectionView?.frame.width) ?? 0, height: (collectionView?.frame.height) ?? 0)
+        informationController?.view.frame = CGRect(x: 0.0, y:0, width: collectionView.frame.width, height: collectionView.frame.height)
         informationController?.title = Constants.informationTitle
         if let controller = informationController {
             controllerArray.append(controller)
         }
         let parameters = getPageMenuOptions()
         // Initialize scroll menu
-        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0, width:UIScreen.main.bounds.size.width, height: (collectionView?.frame.height) ?? 0), pageMenuOptions: parameters)
+        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0.0, y: 0.0, width:UIScreen.main.bounds.size.width,height:collectionView.frame.height), pageMenuOptions: parameters)
         pageMenu?.delegate = self
         if let view = pageMenu?.view {
-            collectionView?.addSubview(view);
+            collectionView.addSubview(view);
         }
         addConstraintOnPageMenu()
     }

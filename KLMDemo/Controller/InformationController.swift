@@ -19,9 +19,10 @@ class InformationController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView?.register(UINib(nibName: "InformationCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        let versionNumber = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? Constants.emptyText
-        // String concatenation
-        versionLabel?.text =   Constants.versionText  + versionNumber + Constants.dotText
+        if let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            // String concatenation
+            versionLabel?.text =   Constants.versionText  + versionNumber + Constants.dotText
+        }
     }
 }
 extension InformationController:UITableViewDataSource {

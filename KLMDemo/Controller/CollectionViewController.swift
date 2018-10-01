@@ -30,7 +30,10 @@ class CollectionViewController: UIViewController {
     }
     private func saveDataInDataBase() {
         var itemCount = 1
-        for i in 0..<(locationCoordinates?.count ?? Constants.invalidItemTag) {
+        guard let count = locationCoordinates?.count else {
+            return
+        }
+        for i in 0..<count {
             let data = locationCoordinates?[i]
             let item = CollectionItem(context: coreDataManager.getContext())
             item.isFavorite = false
